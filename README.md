@@ -9,11 +9,23 @@ This repository is complementary to the article published in: [Link InfoQ]
 # Executando Zuul a partir dos fontes
 1. Acesse a pasta exemplo-zuul
 2. Configure as regras de rota no arquivo application.yml
-3. Execute o comando mvn package
-4. Acesse a pasta target
-5. Execute o comando java -jar [jar gerado, exemplo: exemplo-zuul-0.0.1-SNAPSHOT.jar]
+3. Execute o seguinte comandos
+   * No Linux
+    ```bash
+    $ ./gradlew bootRun
+    ```
+   * No Windows
 
-# Executando Hystrix a partir do GitHub
+# Executando Eureka a partir dos fontes
+1. Acesse a pasta exemplo-eureka
+2. Execute o seguinte comandos
+   * No Linux
+    ```bash
+    $ ./gradlew bootRun
+    ```
+   * No Windows
+   
+# Executando Hystrix a partir dos fontes
 1. Acesse a pasta hystrix-dashboard
 2. Execute o seguinte comandos
    * No Linux
@@ -21,3 +33,4 @@ This repository is complementary to the article published in: [Link InfoQ]
     $ ./gradlew appRun
     ```
    * No Windows 
+
