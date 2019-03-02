@@ -76,4 +76,6 @@ This repository is complementary to the article published in: [Link InfoQ]
    * POST /api/Example
      * Nela poderá realizar uma requisição simulando sucesso, timeout ou exception
   
+# Executando Testes com JMeter
+Dentro do repositório há o jMeterExample.jmx pronto para dispoarar requisições contra a API-A de exemplo, permmitindo visualizar no Hystrix a evolução
 
