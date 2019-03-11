@@ -15,7 +15,7 @@ This repository is complementary to the article published in: [Link InfoQ]
     $ ./gradlew bootRun
     ```
    * No Windows
-4. Acessar no endereço:
+4. Acessar no endereço: http://localhost:8762/actuator/health
 
 # Executando Eureka a partir dos fontes
 1. Acesse a pasta exemplo-eureka
@@ -32,17 +32,17 @@ This repository is complementary to the article published in: [Link InfoQ]
 2. Execute o seguinte comandos
    * No Linux
     ```bash
-    $ ./gradlew appRun
+    $ ./gradlew bootRun
     ```
    * No Windows 
-3. Acessar no endereço: http://localhost:7979/hystrix-dashboard/
+3. Acessar no endereço: http://localhost:8091/hystrix-dashboard
 
 # Executando Spring Boot Admin a partir dos fontes
 1. Acesse a pasta exemplo-spring-admin
 2. Execute o seguinte comandos
    * No Linux
     ```bash
-    $ ./gradlew appRun
+    $ ./gradlew bootRun
     ```
    * No Windows
 3. Acessar no endereço: http://localhost:8093

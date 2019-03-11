@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -89,6 +90,15 @@ namespace exemplo_api_a
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            var rewrite = new RewriteOptions()
+                .AddRewrite("actuator/env", "env", true)
+                .AddRewrite("actuator/health", "health", true)
+                .AddRewrite("actuator/trace", "trace", true)
+                .AddRewrite("actuator/info", "info", true);
+
+            app.UseRewriter(rewrite);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
