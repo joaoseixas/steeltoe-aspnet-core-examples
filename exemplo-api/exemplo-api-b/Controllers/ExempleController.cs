@@ -1,7 +1,9 @@
 
 using System;
 using System.Threading;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace exemplo_api_b.Controllers
 {
@@ -11,6 +13,11 @@ namespace exemplo_api_b.Controllers
     {
         public ExampleController()
         {
+        }
+
+        public string Get()
+        {
+            return "Hello";
         }
 
         [HttpPost]

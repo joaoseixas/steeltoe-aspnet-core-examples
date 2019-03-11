@@ -17,6 +17,7 @@ using Steeltoe.CircuitBreaker.Hystrix;
 using Steeltoe.Common.HealthChecks;
 using Steeltoe.Common.Http.Discovery;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Management.CloudFoundry;
 using Steeltoe.Management.Endpoint.Env;
 using Steeltoe.Management.Endpoint.Health;
 using Steeltoe.Management.Endpoint.Info;
@@ -52,6 +53,12 @@ namespace exemplo_api_a
             })
             .AddHttpMessageHandler<DiscoveryHttpMessageHandler>();
 
+            services.AddHttpClient("zuul-server", c =>
+            {
+                c.BaseAddress = new Uri("http://zuul-server");
+            })
+           .AddHttpMessageHandler<DiscoveryHttpMessageHandler>();
+
             services.AddDiscoveryClient(Configuration);
 
             services.AddHystrixCommand<ApiBCallCommand>("ApiBCallGroup", Configuration);
@@ -61,7 +68,7 @@ namespace exemplo_api_a
             // Add your own IHealthContributor, registered with the interface
             services.AddSingleton<IHealthContributor, ApiBCheck>();
             services.AddSingleton<IInfoContributor, InfoSomeValue>();
-
+            services.AddCloudFoundryActuators(Configuration);
             services.AddHealthActuator(Configuration);
             services.AddInfoActuator(Configuration);
             services.AddLoggersActuator(Configuration);
@@ -101,15 +108,12 @@ namespace exemplo_api_a
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
             // Use Hystrix Request contexts
             app.UseHystrixRequestContext();
-
-            app.UseMvc();
-
             // Use the Steeltoe Discovery Client service
             app.UseDiscoveryClient();
 
@@ -123,6 +127,13 @@ namespace exemplo_api_a
             app.UseEnvActuator();
             app.UseMappingsActuator();
             app.UseMetricsActuator();
+
+            // Add management endpoints into pipeline
+            app.UseCloudFoundryActuators();
+
+            app.UseMvc();
+
+            
         }
     }
 }

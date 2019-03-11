@@ -1,5 +1,16 @@
 zuul:
+  ignoredServices: '*'
   routes:
-    helloworld:
+    apiB:
       path: /hello/**
-      url: http://localhost:57722/
+      serviceId: api-b
+      #url: http://localhost:57722/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: routes,filters,health,env,metrics,trace,info,refresh,loggers
+
+logging:
+  pattern: 
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
