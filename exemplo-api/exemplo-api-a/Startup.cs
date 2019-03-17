@@ -47,16 +47,17 @@ namespace exemplo_api_a
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<DiscoveryHttpMessageHandler>();
-            // Configure a HttpClient
-            services.AddHttpClient("api-b", c =>
-            {
-                c.BaseAddress = new Uri("http://api-b");
-            })
-            .AddHttpMessageHandler<DiscoveryHttpMessageHandler>();
+            // Configure a HttpClient 
+            //Chamada direta para API B, caso queira testar conectividade/problemas no zuul
+            //services.AddHttpClient("api-b", c =>
+            //{
+            //    c.BaseAddress = new Uri("http://api-b");
+            //})
+            //.AddHttpMessageHandler<DiscoveryHttpMessageHandler>();
 
             services.AddHttpClient("zuul-server", c =>
             {
-                c.BaseAddress = new Uri("http://zuul-server");
+                c.BaseAddress = new Uri("http://zuul-server/hello/");
             })
            .AddHttpMessageHandler<DiscoveryHttpMessageHandler>();
 
@@ -65,19 +66,20 @@ namespace exemplo_api_a
             services.AddHystrixCommand<ApiBCallCommand>("ApiBCallGroup", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 
-
+            services.AddCloudFoundryActuators(Configuration);
             // Add your own IHealthContributor, registered with the interface
             services.AddSingleton<IHealthContributor, ApiBCheck>();
             services.AddSingleton<IInfoContributor, InfoSomeValue>();
-            services.AddCloudFoundryActuators(Configuration);
-            services.AddHealthActuator(Configuration);
-            services.AddInfoActuator(Configuration);
-            services.AddLoggersActuator(Configuration);
-            services.AddTraceActuator(Configuration);
-            services.AddRefreshActuator(Configuration);
-            services.AddEnvActuator(Configuration);
-            services.AddMappingsActuator(Configuration);
-            services.AddMetricsActuator(Configuration);
+
+
+            //services.AddHealthActuator(Configuration);
+            //services.AddInfoActuator(Configuration);
+            //services.AddLoggersActuator(Configuration);
+            //services.AddTraceActuator(Configuration);
+            //services.AddRefreshActuator(Configuration);
+            //services.AddEnvActuator(Configuration);
+            //services.AddMappingsActuator(Configuration);
+            //services.AddMetricsActuator(Configuration);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -91,13 +93,13 @@ namespace exemplo_api_a
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
-            var rewrite = new RewriteOptions()
-                .AddRewrite("actuator/env", "env", true)
-                .AddRewrite("actuator/health", "health", true)
-                .AddRewrite("actuator/trace", "trace", true)
-                .AddRewrite("actuator/info", "info", true);
+            //var rewrite = new RewriteOptions()
+            //    .AddRewrite("actuator/env", "env", true)
+            //    .AddRewrite("actuator/health", "health", true)
+            //    .AddRewrite("actuator/trace", "trace", true)
+            //    .AddRewrite("actuator/info", "info", true);
 
-            app.UseRewriter(rewrite);
+            //app.UseRewriter(rewrite);
 
             if (env.IsDevelopment())
             {
@@ -129,14 +131,14 @@ namespace exemplo_api_a
 
             app.UseHystrixMetricsStream();
 
-            app.UseHealthActuator();
-            app.UseInfoActuator();
-            app.UseLoggersActuator();
-            app.UseTraceActuator();
-            app.UseRefreshActuator();
-            app.UseEnvActuator();
-            app.UseMappingsActuator();
-            app.UseMetricsActuator();
+            //app.UseHealthActuator();
+            //app.UseInfoActuator();
+            //app.UseLoggersActuator();
+            //app.UseTraceActuator();
+            //app.UseRefreshActuator();
+            //app.UseEnvActuator();
+            //app.UseMappingsActuator();
+            //app.UseMetricsActuator();
 
             // Add management endpoints into pipeline
             app.UseCloudFoundryActuators();

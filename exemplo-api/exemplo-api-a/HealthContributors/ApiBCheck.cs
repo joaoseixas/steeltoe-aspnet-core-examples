@@ -27,7 +27,8 @@ namespace exemplo_api_a.HealthContributors
 
             try
             {
-                HttpClient client = _httpClientFactory.CreateClient("api-b");
+                //HttpClient client = _httpClientFactory.CreateClient("api-b");
+                HttpClient client = _httpClientFactory.CreateClient("zuul-server");
                 HttpRequestMessage request = new HttpRequestMessage();
                 var response = client.GetStringAsync("health").Result;
 

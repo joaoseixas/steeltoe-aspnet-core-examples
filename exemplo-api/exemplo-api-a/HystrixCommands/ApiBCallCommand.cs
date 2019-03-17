@@ -28,7 +28,7 @@ namespace exemplo_api_a.HystrixCommands
         protected override async Task<string> RunAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("zuul-server");
-            var res = await httpClient.PostAsync<Request>("hello/api/Example", _request ?? new Request(), new JsonMediaTypeFormatter());
+            var res = await httpClient.PostAsync<Request>("api/Example", _request ?? new Request(), new JsonMediaTypeFormatter());
             var content = await res.Content.ReadAsStringAsync();
 
             if (res.StatusCode != HttpStatusCode.OK)
