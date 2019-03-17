@@ -1,5 +1,0 @@
-zuul:
-  routes:
-    helloworld:
-      path: /hello/**
-      url: http://localhost:57722/
