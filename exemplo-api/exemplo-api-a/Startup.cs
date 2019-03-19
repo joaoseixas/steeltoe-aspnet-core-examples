@@ -7,6 +7,7 @@ using exemplo_api_a.HystrixCommands;
 using exemplo_api_a.InfoContributors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
@@ -46,6 +47,7 @@ namespace exemplo_api_a
             // Add your own IHealthContributor, registered with the interface
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
             services.AddTransient<DiscoveryHttpMessageHandler>();
             // Configure a HttpClient 
             //Chamada direta para API B, caso queira testar conectividade/problemas no zuul
@@ -72,14 +74,16 @@ namespace exemplo_api_a
             services.AddSingleton<IInfoContributor, InfoSomeValue>();
 
 
-            //services.AddHealthActuator(Configuration);
-            //services.AddInfoActuator(Configuration);
-            //services.AddLoggersActuator(Configuration);
-            //services.AddTraceActuator(Configuration);
-            //services.AddRefreshActuator(Configuration);
-            //services.AddEnvActuator(Configuration);
-            //services.AddMappingsActuator(Configuration);
-            //services.AddMetricsActuator(Configuration);
+            services.AddHealthActuator(Configuration);
+            services.AddInfoActuator(Configuration);
+            services.AddLoggersActuator(Configuration);
+            services.AddTraceActuator(Configuration);
+            services.AddRefreshActuator(Configuration);
+            services.AddEnvActuator(Configuration);
+            services.AddMappingsActuator(Configuration);
+            services.AddMetricsActuator(Configuration);
+
+            
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -92,15 +96,9 @@ namespace exemplo_api_a
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            //var rewrite = new RewriteOptions()
-            //    .AddRewrite("actuator/env", "env", true)
-            //    .AddRewrite("actuator/health", "health", true)
-            //    .AddRewrite("actuator/trace", "trace", true)
-            //    .AddRewrite("actuator/info", "info", true);
-
-            //app.UseRewriter(rewrite);
-
+            app.MapWhen(context => context.Request.Method.Equals("options", StringComparison.OrdinalIgnoreCase), HandleHead);
+            
+            app.UseCors(options => options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -131,21 +129,33 @@ namespace exemplo_api_a
 
             app.UseHystrixMetricsStream();
 
-            //app.UseHealthActuator();
-            //app.UseInfoActuator();
-            //app.UseLoggersActuator();
-            //app.UseTraceActuator();
-            //app.UseRefreshActuator();
-            //app.UseEnvActuator();
-            //app.UseMappingsActuator();
-            //app.UseMetricsActuator();
+            app.UseHealthActuator();
+            app.UseInfoActuator();
+            app.UseLoggersActuator();
+            app.UseTraceActuator();
+            app.UseRefreshActuator();
+            app.UseEnvActuator();
+            app.UseMappingsActuator();
+            app.UseMetricsActuator();
+            
 
             // Add management endpoints into pipeline
             app.UseCloudFoundryActuators();
 
+            
+
             app.UseMvc();
 
-            
+
+        }
+
+        private static void HandleHead(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                context.Response.StatusCode = 200;
+                await context.Response.WriteAsync($"Up to head!");
+            });
         }
     }
 }
