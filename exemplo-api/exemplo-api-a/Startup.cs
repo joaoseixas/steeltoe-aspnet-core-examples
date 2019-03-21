@@ -96,10 +96,6 @@ namespace exemplo_api_a
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.MapWhen(context => context.Request.Method.Equals("options", StringComparison.OrdinalIgnoreCase), HandleHead);
-
-            app.UseCors(options => options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -121,12 +117,16 @@ namespace exemplo_api_a
 
             app.UseStaticFiles();
 
-            // Use Hystrix Request contexts
-            app.UseHystrixRequestContext();
             // Use the Steeltoe Discovery Client service
             app.UseDiscoveryClient();
 
+            // Use Hystrix Request contexts
+            app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
+
+            app.MapWhen(context => context.Request.Method.Equals("options", StringComparison.OrdinalIgnoreCase), HandleHead);
+
+            app.UseCors(options => options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 
             app.UseHealthActuator();
             app.UseInfoActuator();

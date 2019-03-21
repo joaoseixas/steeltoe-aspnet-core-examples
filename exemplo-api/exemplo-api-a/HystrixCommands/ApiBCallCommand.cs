@@ -31,11 +31,11 @@ namespace exemplo_api_a.HystrixCommands
             var res = await httpClient.PostAsync<Request>("api/Example", _request ?? new Request(), new JsonMediaTypeFormatter());
             var content = await res.Content.ReadAsStringAsync();
 
-            if (res.StatusCode != HttpStatusCode.OK)
-                return $"{res.StatusCode} - {content}";
-
             if (res.StatusCode == HttpStatusCode.InternalServerError)
                 throw new Exception(content);
+
+            if (res.StatusCode != HttpStatusCode.OK)
+                return $"{res.StatusCode} - {content}";
 
             return await res.Content.ReadAsStringAsync();
         }

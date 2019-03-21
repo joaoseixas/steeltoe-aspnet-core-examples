@@ -19,6 +19,7 @@ ext {
 }
 
 dependencies {
+	compile 'javax.xml.bind:jaxb-api:2.3.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
