@@ -71,16 +71,6 @@ namespace exemplo_api_a
             services.AddSingleton<IHealthContributor, ApiBCheck>();
             services.AddSingleton<IInfoContributor, InfoSomeValue>();
 
-
-            //services.AddHealthActuator(Configuration);
-            //services.AddInfoActuator(Configuration);
-            //services.AddLoggersActuator(Configuration);
-            //services.AddTraceActuator(Configuration);
-            //services.AddRefreshActuator(Configuration);
-            //services.AddEnvActuator(Configuration);
-            //services.AddMappingsActuator(Configuration);
-            //services.AddMetricsActuator(Configuration);
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -92,14 +82,6 @@ namespace exemplo_api_a
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            //var rewrite = new RewriteOptions()
-            //    .AddRewrite("actuator/env", "env", true)
-            //    .AddRewrite("actuator/health", "health", true)
-            //    .AddRewrite("actuator/trace", "trace", true)
-            //    .AddRewrite("actuator/info", "info", true);
-
-            //app.UseRewriter(rewrite);
 
             if (env.IsDevelopment())
             {
@@ -120,8 +102,6 @@ namespace exemplo_api_a
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            //app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             // Use Hystrix Request contexts
@@ -130,15 +110,6 @@ namespace exemplo_api_a
             app.UseDiscoveryClient();
 
             app.UseHystrixMetricsStream();
-
-            //app.UseHealthActuator();
-            //app.UseInfoActuator();
-            //app.UseLoggersActuator();
-            //app.UseTraceActuator();
-            //app.UseRefreshActuator();
-            //app.UseEnvActuator();
-            //app.UseMappingsActuator();
-            //app.UseMetricsActuator();
 
             // Add management endpoints into pipeline
             app.UseCloudFoundryActuators();

@@ -15,6 +15,7 @@ namespace exemplo_api_b.Controllers
         {
         }
 
+        [HttpGet]
         public string Get()
         {
             return "Hello";
