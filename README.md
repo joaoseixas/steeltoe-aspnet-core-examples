@@ -1,5 +1,5 @@
 # steeltoe-aspnet-core-examples
-This repository is complementary to the article published in: [Link InfoQ]
+This repository is complementary to the article published in: https://www.infoq.com/br/articles/netflix-oss-steeltoe/
 
 #pendências
 -Git Ignore para os bins JAVA
