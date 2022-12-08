@@ -13,7 +13,7 @@
     <PackageReference Include="Steeltoe.Management.EndpointBase" Version="2.1.1" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Version="2.1.1" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Version="2.1.1" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsEventsCore" Version="2.1.1" />
